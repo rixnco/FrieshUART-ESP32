@@ -2,7 +2,10 @@
 
 #include <BLEDevice.h>
 #include <BLEServer.h>
+
+#if defined(ARDUINO_LOLIN_C3_PICO)
 #include <Adafruit_NeoPixel.h>
+#endif
 
 #include "BLEFrieshStream.h"
 
@@ -30,8 +33,8 @@ Stream                  *pFrieshStream;
 #if defined(ARDUINO_LOLIN_C3_PICO)
 #define LED_RGB   LED_BUILTIN
 Adafruit_NeoPixel pixels(1, LED_RGB, NEO_RGB + NEO_KHZ800);
-static bool __cdc_serial= false;
 #endif
+static bool __cdc_serial= false;
 
 static bool     __last_blink_state = false;
 static uint32_t __last_blink_time = 0;
@@ -54,7 +57,7 @@ static uint32_t __last_blink_time = 0;
 void setup() {
 #if defined(ARDUINO_LOLIN_C3_SUPERMINI) || defined(ARDUINO_LOLIN_C3_MINI)
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(0);
+  digitalWrite(LED_BUILTIN,0);
 #elif defined(ARDUINO_LOLIN_C3_PICO)
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
   pixels.setPixelColor(0, pixels.Color(50, 0, 0));
